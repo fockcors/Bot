@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         /r/fuckcars Bot
 // @namespace    https://github.com/fockcors/Bot
-// @version      27
+// @version      28
 // @description  The bot for r/fuckcars!
 // @author       NoahvdAa/fockcors
 // @match        https://www.reddit.com/r/place/*
@@ -131,7 +131,7 @@ function connectSocket() {
             duration: DEFAULT_TOAST_DURATION_MS
         }).showToast();
         socket.send(JSON.stringify({ type: 'getmap' }));
-        socket.send(JSON.stringify({ type: 'brand', brand: 'userscriptV26' }));
+        socket.send(JSON.stringify({ type: 'brand', brand: 'userscriptV28' }));
     };
 
     socket.onmessage = async function (message) {
