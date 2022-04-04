@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         /r/fuckcars Bot
 // @namespace    https://github.com/fockcors/Bot
-// @version      26
+// @version      27
 // @description  The bot for r/fuckcars!
 // @author       NoahvdAa/fockcors
 // @match        https://www.reddit.com/r/place/*
@@ -212,10 +212,53 @@ async function attemptPlace() {
         return;
     }
 
+    // Hack to prioritize work in a certain coordinate zone
+    // Hard-coded coordinates for now.
+    // From roughly the middle of the F to the bottom of the R, to catch weird extensions of letters like FuckEars
+
+    const priorityAreaCoords = {
+        minX: 1006,
+        maxX: 1089,
+        minY: 752,
+        maxY: 769,
+    }
+
+    var subsetWork = []
+    var priorityWork = []
+
+    // Brute force through all pending work to get just the ones in coord zone
+    for (let i = 0; i < work.length; i++) {
+        let workItem = work[i]
+        let workItemX = workItem % 2000
+        let workItemY = Math.floor(workItem / 2000);
+
+        console.log(`Checking work item: ${workItem}, ${workItemX}, ${workItemY}`)
+
+        if (workItemX >= priorityAreaCoords.minX && workItemX <= priorityAreaCoords.maxX
+        && workItemY >= priorityAreaCoords.minY && workItemY <= priorityAreaCoords.maxY) {
+            priorityWork.push(workItem)
+        }
+    }
+
+    if (priorityWork.length > 0) {
+        subsetWork = priorityWork
+
+        console.log("High priority work exists")
+
+        Toastify({
+            text: `High priority work detected near logo.`,
+            duration: DEFAULT_TOAST_DURATION_MS
+        }).showToast();
+    } else {
+        // No high priority work, just use the normal pile
+        console.log("No high priority work to do.")
+        subsetWork = work
+    }
+
     const percentComplete = 100 - Math.ceil(work.length * 100 / order.length);
     const workRemaining = work.length;
-    const idx = Math.floor(Math.random() * work.length);
-    const i = work[idx];
+    const idx = Math.floor(Math.random() * subsetWork.length);
+    const i = subsetWork[idx];
     const x = i % 2000;
     const y = Math.floor(i / 2000);
     const hex = rgbaOrderToHex(i, rgbaOrder);
@@ -242,7 +285,7 @@ async function attemptPlace() {
         } else {
             const nextPixel = data.data.act.data[0].data.nextAvailablePixelTimestamp + 3000 + Math.floor(Math.random() * 10000); // Random tijd toevoegen tussen 0 en 10 sec om detectie te voorkomen en te spreiden na server herstart.
             const nextPixelDate = new Date(nextPixel);
-            const delay = nextPixelDate.getTime() - Date.now(); 
+            const delay = nextPixelDate.getTime() - Date.now();
             const toast_duration = delay > 0 ? delay : DEFAULT_TOAST_DURATION_MS;
             Toastify({
                 text: `Pixel placed on ${x}, ${y}! Next pixel will be placed at ${nextPixelDate.toLocaleTimeString()}.`,
