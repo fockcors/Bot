@@ -15,6 +15,9 @@
 // @grant        GM_addStyle
 // @grant        GM.xmlHttpRequest
 // @connect      https://reddit.com
+// @connect      reddit.com
+// @connect      placefc.herokuapp.com
+// @connect      hot-potato.reddit.com
 // ==/UserScript==
 
 // Sorry voor de rommelige code, haast en clean gaatn iet altijd samen ;)
@@ -122,7 +125,7 @@ function connectSocket() {
         duration: DEFAULT_TOAST_DURATION_MS
     }).showToast();
 
-    socket = new WebSocket('wss://placenl.noahvdaa.me/api/ws');
+    socket = new WebSocket('wss://placefc.herokuapp.com/api/ws');
 
     socket.onopen = function () {
         Toastify({
@@ -147,7 +150,7 @@ function connectSocket() {
                     text: `Nieuwe map laden (reden: ${data.reason ? data.reason : 'verbonden met server'})...`,
                     duration: DEFAULT_TOAST_DURATION_MS
                 }).showToast();
-                currentOrderCtx = await getCanvasFromUrl(`https://placenl.noahvdaa.me/maps/${data.data}`, currentOrderCanvas, 0, 0, true);
+                currentOrderCtx = await getCanvasFromUrl(`https://placefc.herokuapp.com/maps/${data.data}`, currentOrderCanvas, 0, 0, true);
                 order = getRealWork(currentOrderCtx.getImageData(0, 0, 2000, 2000).data);
                 Toastify({
                     text: `Nieuwe map geladen, ${order.length} pixels in totaal`,
