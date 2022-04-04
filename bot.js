@@ -4,7 +4,7 @@ import WebSocket from 'ws';
 
 const VERSION_NUMBER = 6;
 
-console.log(`PlaceNL headless client V${VERSION_NUMBER}`);
+console.log(`fuckcars headless client V${VERSION_NUMBER}`);
 
 const args = process.argv.slice(2);
 
@@ -176,16 +176,16 @@ async function refreshTokens() {
 }
 
 function connectSocket() {
-    console.log('Verbinden met PlaceNL server...')
+    console.log('Verbinden met fuckcars server...')
 
-    socket = new WebSocket('wss://placenl.noahvdaa.me/api/ws');
+    socket = new WebSocket('wss://placefc.herokuapp.com/api/ws');
 
     socket.onerror = function(e) {
         console.error("Socket error: " + e.message)
     }
 
     socket.onopen = function () {
-        console.log('Verbonden met PlaceNL server!')
+        console.log('Verbonden met fuckcars server!')
         socket.send(JSON.stringify({ type: 'getmap' }));
         socket.send(JSON.stringify({ type: 'brand', brand: `nodeheadlessV${VERSION_NUMBER}` }));
     };
@@ -201,7 +201,7 @@ function connectSocket() {
         switch (data.type.toLowerCase()) {
             case 'map':
                 console.log(`Nieuwe map geladen (reden: ${data.reason ? data.reason : 'verbonden met server'})`)
-                currentOrders = await getMapFromUrl(`https://placenl.noahvdaa.me/maps/${data.data}`);
+                currentOrders = await getMapFromUrl(`https://placefc.herokuapp.com/maps/${data.data}`);
                 currentOrderList = getRealWork(currentOrders.data);
                 break;
             default:
@@ -210,7 +210,7 @@ function connectSocket() {
     };
 
     socket.onclose = function (e) {
-        console.warn(`PlaceNL server heeft de verbinding verbroken: ${e.reason}`)
+        console.warn(`fuckcars server heeft de verbinding verbroken: ${e.reason}`)
         console.error('Socketfout: ', e.reason);
         socket.close();
         setTimeout(connectSocket, 1000);
