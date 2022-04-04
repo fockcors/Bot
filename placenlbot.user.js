@@ -1,16 +1,16 @@
 // ==UserScript==
-// @name         PlaceNL Bot
-// @namespace    https://github.com/PlaceNL/Bot
+// @name         /r/fuckcars Bot
+// @namespace    https://github.com/fockcors/Bot
 // @version      22
-// @description  De bot voor PlaceNL!
-// @author       NoahvdAa
+// @description  The bot for /r/fuckcars!
+// @author       NoahvdAa, fuckcors, other contributors
 // @match        https://www.reddit.com/r/place/*
 // @match        https://new.reddit.com/r/place/*
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=reddit.com
 // @require	     https://cdn.jsdelivr.net/npm/toastify-js
 // @resource     TOASTIFY_CSS https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css
-// @updateURL    https://github.com/PlaceNL/Bot/raw/master/placenlbot.user.js
-// @downloadURL  https://github.com/PlaceNL/Bot/raw/master/placenlbot.user.js
+// @updateURL    https://github.com/fockcors/Bot/raw/master/fuckcarsbot.user.js
+// @downloadURL  https://github.com/fockcors/Bot/raw/master/fuckcarsbot.user.js
 // @grant        GM_getResourceText
 // @grant        GM_addStyle
 // @grant        GM.xmlHttpRequest
